@@ -73,10 +73,11 @@ public class AppLayoutBuilder implements ComponentBuilder {
         if (titleComponent != null) {
             instance.setTitleComponent(titleComponent);
         }
-        instance.setDesign(design);
         if (imageComponent != null) {
             instance.setIconComponent(imageComponent);
         }
+        instance.setDesign(design);
+        instance.init();
         return instance;
 
     }
@@ -120,7 +121,7 @@ public class AppLayoutBuilder implements ComponentBuilder {
 
     public AppLayoutBuilder withIcon(String url) {
         Image image = new Image(url, "icon");
-        image.setHeight("48px");
+        image.setHeight("var(--app-layout-menu-button-height)");
         return withIconComponent(image);
     }
 

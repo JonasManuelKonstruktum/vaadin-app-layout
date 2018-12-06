@@ -40,7 +40,7 @@ public class MainAppLayout extends AppLayoutRouterLayout {
   private DefaultNotificationHolder notifications;
   private DefaultBadgeHolder badge;
 
-  @Override public AppLayout getAppLayout() {
+  @Override public AppLayout createAppLayoutInstance() {
     if (variant == null) {
       variant = Behaviour.LEFT;
       notifications = new DefaultNotificationHolder(newStatus -> {
@@ -58,7 +58,8 @@ public class MainAppLayout extends AppLayoutRouterLayout {
           .withDesign(AppLayoutDesign.MATERIAL)
           .withAppMenu(LeftAppMenuBuilder
                            .get()
-                           .addToSection(new MenuHeaderComponent("Menu-Header", "Version 2.0.1", null), HEADER)
+                  .addToSection(new MenuHeaderComponent("Menu-Header", "Version 2.0.1",
+                          "/frontend/images/logo.png"), HEADER)
                            .addToSection(new LeftClickableComponent("Set Behaviour HEADER",
                                                                     VaadinIcon.COG.create(),
                                                                     clickEvent -> openModeSelector(variant)

@@ -17,16 +17,16 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 @HtmlImport("frontend://com/github/appreciated/app-layout/styles/app-bar-notification-button-style.html")
 public class AppBarNotificationButton extends PaperMenuButton {
 
-	private NotificationsView notificationsView;
+    private NotificationsView notificationsView;
 
-	public AppBarNotificationButton(VaadinIcon icon, NotificationHolder holder) {
-		super(new IconBadgeButton(icon), new Div());
-		this.notificationsView = new NotificationsView(holder);
-		this.setContent(notificationsView);
+    public AppBarNotificationButton(VaadinIcon icon, NotificationHolder holder) {
+        super(new IconBadgeButton(icon), new Div());
+        this.notificationsView = new NotificationsView(holder);
+        this.setContent(notificationsView);
         setClassName("app-bar-notification-button");
         getStyle().set("--paper-menu-button-dropdown-background", "transparent")
                 .set("--shadow-elevation-2dp_-_box-shadow", "0px")
-                .set("--paper-menu-button-dropdown_-_margin-top", "64px")
+                .set("--paper-menu-button-dropdown_-_margin-top", "var(--app-layout-bar-height)")
                 .set("--paper-menu-button-dropdown_-_margin-right", "7px");
 
         setHorizontalAlignment(HorizontalAlignment.RIGHT);
@@ -39,7 +39,7 @@ public class AppBarNotificationButton extends PaperMenuButton {
             @Override
             public void onNotificationAdded(Notification notification) {
                 if (!isOpened()) {
-                    NotificationViewWithoutWrapper view = new NotificationViewWithoutWrapper(notification);
+                    NotificationViewWithoutWrapper view = new NotificationViewWithoutWrapper(notification, holder);
                     view.setWidth("200px");
                     com.vaadin.flow.component.notification.Notification notificationView = new com.vaadin.flow.component.notification.Notification(view);
                     notificationView.setPosition(com.vaadin.flow.component.notification.Notification.Position.TOP_END);
@@ -53,18 +53,18 @@ public class AppBarNotificationButton extends PaperMenuButton {
 
             }
         });
-        //holder.addClickListener(newStatus -> getUI().ifPresent(ui -> ui.access(() -> AppBarNotificationButton.this.close())));
+        holder.addClickListener(newStatus -> getUI().ifPresent(ui -> ui.access(AppBarNotificationButton.this::close)));
         holder.bind(((IconBadgeButton) getButton()).getBadge());
     }
 
     public void refreshNotifications(NotificationHolder notificationHolder) {
         getUI().ifPresent(ui -> ui.access(() -> {
-			notificationsView.initView();
-			//setContent(new NotificationsView(notificationHolder));
+            notificationsView.initView();
+            //setContent(new NotificationsView(notificationHolder));
         }));
     }
 
-	public NotificationsView getNotificationsView() {
-		return notificationsView;
-	}
+    public NotificationsView getNotificationsView() {
+        return notificationsView;
+    }
 }
